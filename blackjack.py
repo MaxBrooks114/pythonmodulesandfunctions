@@ -58,11 +58,19 @@ def deal_dealer():
 
 
 def deal_player():
+    global player_hand
     player_hand.append(deal_card(player_card_frame))
     player_score = score_hand(player_hand)
     player_score_label.set(player_score)
     if player_score > 21:
         result_text.set("Dealer wins")
+
+
+def initial_deal():
+    deal_player()
+    dealer_hand.append(deal_card(dealer_card_frame))
+    dealer_score_label.set(score_hand(dealer_hand))
+    deal_player()
 
 
 def new_game():
@@ -80,10 +88,13 @@ def new_game():
     result_text.set("")
     score_hand(player_hand)
     score_hand(dealer_hand)
-    deal_player()
-    dealer_hand.append(deal_card(dealer_card_frame))
-    dealer_score_label.set(score_hand(dealer_hand))
-    deal_player()
+    initial_deal()
+
+
+def play():
+    initial_deal()
+
+    main_window.mainloop()
 
 
 main_window = tkinter.Tk()
@@ -129,8 +140,9 @@ new_button.grid(row=0, column=2)
 
 cards = []
 load_images(cards)
+deck = list(cards)
 dealer_hand = []
 player_hand = []
-new_game()
 
-main_window.mainloop()
+if __name__ == "__main__":
+    play()
